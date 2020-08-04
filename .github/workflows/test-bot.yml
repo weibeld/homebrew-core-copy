@@ -1,0 +1,18 @@
+name: test-bot
+on:
+  push:
+    branches: master
+  pull_request:
+jobs:
+  test-bot:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: test-bot
+        run: |
+          set -e
+          brew update
+          HOMEBREW_TAP_DIR=/usr/local/Homebrew/Library/Taps/weibeld/homebrew-core
+          mkdir -p "${HOMEBREW_TAP_DIR%/*}"
+          ln -s "$PWD" "$HOMEBREW_TAP_DIR"
+          brew test-bot
